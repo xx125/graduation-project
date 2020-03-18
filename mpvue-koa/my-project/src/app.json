@@ -4,7 +4,12 @@
     "pages/topic/main",
     "pages/order/main",
     "pages/my/main",
-    "pages/mappage/main"
+    "pages/mappage/main",
+    "pages/food_takeout/main",
+    "pages/food_list/main",
+    "pages/newgoods/main",
+    "pages/search/main",
+    "pages/goods/main"
   ],
   "permission": {
     "scope.userLocation": {
