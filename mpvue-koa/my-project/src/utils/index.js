@@ -41,7 +41,7 @@ function request (url, method, data, header = {}) {
         resolve(res.data)
       },
       fail (error) {
-        wx.hideLoading()
+        // wx.hideLoading()
         reject(false)
       },
       complete () {

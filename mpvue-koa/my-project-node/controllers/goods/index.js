@@ -9,8 +9,9 @@ async function detailAction (ctx) {
     'id': goodsId
   }).select()
   ctx.body = {
-    'info': info
+    'info': info[0] || []
   }
+  // console.log(info)
 } 
 
 module.exports = {
