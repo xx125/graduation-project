@@ -127,7 +127,7 @@ export default {
     },
 
     async getHotData (first) {
-      const data = await get('search/indexaction?openId=' + this.openid)
+      const data = await get('/search/indexaction?openId=' + this.openid)
       this.historyData = data.historyData
       this.hotData= data.hotKeywordList
       // console.log(data)

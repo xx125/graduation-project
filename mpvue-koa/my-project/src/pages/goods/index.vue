@@ -1,9 +1,11 @@
 <template>
   <div class="detailWrapper">
-    <img :src="info.image" class="image" />
+    <div>
+      <img :src="info.image" class="image" />
+    </div>
     <div class="info">
-      <div class="title">{{info.name}}</div>
-      <div class="collection"></div>
+      <span class="collect" @click="collect" :class="[collectFlag ? 'active' : '']"></span>
+      <span class="title">{{info.name}}</span>
       <div class="desc">
         <span>月售{{info.sellCount}}</span>
         <span>好评率{{info.rating}}%</span>
@@ -16,7 +18,9 @@
       <div class="shopCart">
         <transition name="fade">
           <!-- <div class="text" @click="addCart($event)" v-show="!food.count">加入购物车</div> -->
-          <div class="text">+</div>
+          <div @click="reduceCart" :class="[showdom ? 'text' : 'hide']">-</div>
+          <input v-model="number" :class="[showdom ? 'number' : 'hide']" disabled="false"/>
+          <div class="text" @click="addCart">+</div>
         </transition>
       </div>
     </div>
@@ -27,42 +31,11 @@
     </div>
     <div class="divider"></div>
 
-    <!-- 评价 -->
-    <!-- <div class="evaluation">
-          <div class="title">
-            商品评价
-          </div>
-          <div class="classify">
-            <span v-for="(item,index) in classifyArr" :key="index" class="item" :class="{'active':item.active,'bad':index==2,'badActive':item.active&&index==2}" @click="filterEvel(item)">
-              {{item.name}}<span class="count">{{item.count}}</span>
-            </span>
-          </div>
-          <div class="switch" @click="evelflag=!evelflag">
-            <span class="icon-check_circle" :class="{'on':evelflag}"></span>
-            <span class="text">只看有内容的评价</span>
-          </div>
-          <div class="evel-list">
-            <ul>
-              <li class="evel" v-for="(item, index) in rate" :key="index">
-                <div class="userInfo">
-                  <div class="time">{{evel.rateTime | time}}</div>
-                  <div class="user">
-                    <span>{{evel.username}}</span>
-                    <span class="avatar"><img :src="evel.avatar" width="12" height="12"></span>
-                  </div>
-                </div>
-                <div class="content">
-                  <span class="icon" :class="evel.rateType?'icon-thumb_down':'icon-thumb_up'"></span>
-                  <span class="text">{{evel.text}}</span>
-                </div>
-              </li>
-            </ul>
-          </div>
-    </div>-->
-
     <div class="comment-list">
       <div>商品评价</div>
-      <div class="tag">
+      <div class="nocomment" v-if="allcomments.length==0">暂无评论~</div>
+      <div class="tag" v-if="allcomments.length!==0">
+        <div @click="all(index)" :class="{choose:alldisplay==1}">全部</div>
         <div @click="good(index)" :class="{choose:gooddisplay==1}">推荐</div>
         <div @click="bad(index)" :class="{choose:baddisplay==1}">吐槽</div>
       </div>
@@ -88,7 +61,7 @@
               <span>{{item.text}}</span>
             </div>
             <div class="r-imgs">
-              <img :src="item.commImg" />
+              <img :src="item.commImg"/>
               <span :class="item.rateType=='推荐' ? 'good' : 'bad'">{{item.rateType}}</span>
             </div>
           </div>
@@ -116,7 +89,7 @@
               <span>{{item.text}}</span>
             </div>
             <div class="r-imgs">
-              <img :src="item.commImg" />
+              <img :src="item.commImg"/>
               <span :class="item.rateType=='推荐' ? 'good' : 'bad'">{{item.rateType}}</span>
             </div>
           </div>
@@ -179,16 +152,14 @@
         >-->
         <div class="container-price">
           <!-- <span :style="{color: btnTitle === '去结算' ? '#333' : '#666'}">{{btnTitle}}</span> -->
-          <span>15元起送</span>
+          <span @click="buy">去结算</span>
         </div>
       </div>
       <div class="cart">
-        <!-- <img
-          mode="widthFix"
-          :src="productCount > 0 ? '../../../static/images/ic_menu_shoping_nor.png' : '../../../static/images/ic_menu_shoping_pressed.png'"
-        />-->
-        <img src="../../../static/images/ic_menu_shoping_nor.png" />
-        <span v-if="productCount > 0">{{productCount}}</span>
+        <span v-if="allnumber>0">{{allnumber}}</span>
+        <div :class="[showall ? 'img' : 'hide']"></div>
+        <!-- <img src="../../../static/images/ic_menu_shoping_nor.png" /> -->
+        <!-- <span v-if="productCount > 0">{{productCount}}</span> -->
       </div>
     </div>
 
@@ -200,14 +171,14 @@
           <img src="../../../static/images/del-address.png" alt />
           <span>清空购物车</span>
         </div>
-        <div class="shopcart">
+        <div class="shopcart" v-for="(item, index) in carts" :key="index">
           <div class="left">
-            <img :src="info.image" alt />
+            <img :src="item.image" />
           </div>
           <div class="right">
             <div>
-              <p>{{info.name}}</p>
-              <p>¥{{info.price}}</p>
+              <p>{{item.goods_name}}</p>
+              <p>¥{{item.price}}</p>
               <div class="count">
                 <div class="cut" @click="reduce">-</div>
                 <input type="text" class="number" v-model="number" disabled="false" />
@@ -228,8 +199,8 @@ import { get, post } from "../../utils";
 export default {
   data() {
     return {
-      id: "",
-      openId: "",
+      id: '',
+      openId: '',
       info: {},
       showpop: false,
       number: 0,
@@ -238,7 +209,14 @@ export default {
       alldisplay:1,
       goodcomm:[],
       badcomm:[],
-      allcomments: []
+      allcomments: [],
+      collectFlag: false,
+      goodsId: '',
+      allnumber: 0,
+      allPrice: 0,
+      showdom: false,
+      showall: true,
+      carts: []
       // showDetail: false,
       // classifyArr: [{
       //   name: '全部',
@@ -331,20 +309,35 @@ export default {
 
   mounted() {
     this.openId = wx.getStorageSync("openId") || "";
-    this.goodsDetail();
+    this.id = this.$root.$mp.query.id
+    this.goodsDetail()
+    this.cartDetail()
   },
   methods: {
     // 数据请求
-    async goodsDetail() {
-      const data = await get("/goods/detailaction", {
-        id: 1,
+    async goodsDetail () {
+      const data = await get('/goods/detailaction', {
+        id: this.id,
         openId: this.openId
-      });
-      this.info = data.info;
-      this.allcomments = data.allcomments;
-      this.goodcomm = data.goodcomm;
-      this.badcomm = data.badcomm;
-      console.log(data);
+      })
+      this.info = data.info
+      this.allcomments = data.allcomments
+      this.goodcomm = data.goodcomm
+      this.badcomm = data.badcomm
+      this.goodsId = data.info.id
+      this.collectFlag = data.collected
+      this.allnumber = data.allnumber
+      this.allPrice = data.info.price
+      console.log(data)
+    },
+
+    async cartDetail () {
+      const data = await get('/cart/detailaction', {
+        id: this.id,
+        openId: this.openId
+      })
+      this.carts = data.carts
+      console.log(data)
     },
 
     showType() {
@@ -361,6 +354,15 @@ export default {
       }
     },
 
+    async collect () {
+      this.collectFlag = !this.collectFlag
+      const data = await post('/collect/addcollect', {
+        openId: this.openId,
+        goodsId: this.goodsId
+      })
+      console.log(data)
+    },
+
     add () {
       this.number += 1;
     },
@@ -373,6 +375,11 @@ export default {
       }
     },
 
+    all (index) {
+      this.alldisplay = 1
+      this.gooddisplay = 0
+      this.baddisplay = 0
+    },
     good (index) {
       this.gooddisplay = 1
       this.baddisplay = 0
@@ -381,25 +388,55 @@ export default {
     bad (index) {
       this.baddisplay = 1
       this.gooddisplay = 0
-      his.alldisplay = 0
+      this.alldisplay = 0
+    },
+ 
+    async addCart () {
+      this.number += 1
+      this.showdom = true
+      const data = await post('/cart/addCart', {
+        openId: this.openId,
+        goodsId: this.goodsId,
+        number: this.number
+      })
+      console.log(data)
+      const datanum = await get("/goods/detailaction", {
+        id: 1,
+        openId: this.openId
+      })
+      this.allnumber = datanum.allnumber
     },
 
-    addCart(event) {
-      // if (!event._constructed) {
-      //   return
-      // }
-      // this.$set(info, 'count', 1)
-      // this.$root.eventHub.$emit('cart.add', event.target)
-    }
+    async reduceCart () {
+      if (this.number > 0) {
+        this.number -= 1
+      } 
+      if (this.number < 1) {
+        this.showdom = false
+      }
+      const data = await post('/cart/reduceCart', {
+        openId: this.openId,
+        goodsId: this.goodsId,
+        number: this.number
+      })
+      console.log(data)
+      const datanum = await get("/goods/detailaction", {
+        id: 1,
+        openId: this.openId
+      })
+      this.allnumber = datanum.allnumber
+    },
 
-    // filterEvel(item) {
-    //   this.classifyArr.forEach((data) => {
-    //     data.active = false
+    buy () {}
+    // async buy () {
+    //   const data = await post('/order/submitAction', {
+    //     goodsId: this.goodsId,
+    //     openId: this.openId,
+    //     allPrice: this.allPrice
     //   })
-    //   item.active = true
     // }
   }
-};
+}
 </script>
 
 <style lang="less" scoped>

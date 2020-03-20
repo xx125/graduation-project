@@ -19,17 +19,39 @@
     font-size: 40rpx;
     padding: 20rpx;
   }
-  image {
-    width: 100%;
-    height: 600rpx;
-    object-fit: cover;
+  div {
+    display: relative;
+    image {
+      width: 100%;
+      height: 600rpx;
+      object-fit: cover;
+    }
   }
   .info {
     position: relative;
     box-sizing: border-box;
     width: 100%;
-    padding: 36rpx;
+    padding: 26rpx 36rpx 36rpx 36rpx;
+    .collect {
+      display: inline-block;
+      vertical-align: middle;
+      height: 40rpx;
+      width: 40rpx;
+      background: url('../../../static/images/icon_collect.png') no-repeat;
+      background-size: cover;
+    }
+    .collect.active {
+      display: inline-block;
+      vertical-align: middle;
+      height: 40rpx;
+      width: 40rpx;
+      background: url('../../../static/images/icon_collect_checked.png') no-repeat;
+      background-size: cover;
+    }
     .title {
+      padding-left: 20rpx;
+      display: inline-block;
+      vertical-align: middle;
       font-size: 36rpx;
       font-weight: 700;
       color: rgb(7,17,27);
@@ -73,14 +95,18 @@
       height: 48rpx;
       text-align: center;
       z-index: 2;
+      .hide {
+        display: none;
+      }
       .text {
+        display: inline-block;
         box-sizing: border-box;
         // height: 100%;
         line-height: 42rpx;
         color: white;
         font-size: 32rpx;
-        padding: 10rpx 24rpx;
-        border-radius: 24rpx;
+        padding: 6rpx 20rpx;
+        border-radius: 50rpx;
         // background: rgb(0,160,220);
         background-color: #e0a354;
         text-align: center;
@@ -90,6 +116,13 @@
         &.fade-enter,&.fade-leave-active {
           opacity: 0;
         }
+      }
+      .number {
+        vertical-align: middle;
+        width: 100rpx;
+        font-size: 32rpx;
+        display: inline-block;
+        border: none;
       }
     }
   }
@@ -113,7 +146,7 @@
     }
   }
   .comment-list {
-    padding: 10rpx 36rpx;
+    padding: 0 36rpx 10rpx 36rpx;
     display: block;
     bottom: 100rpx;
     div {
@@ -121,6 +154,11 @@
       font-weight: 500;
       color: #07111b;
       margin-bottom: 8rpx;
+    }
+    .nocomment {
+      font-size: 30rpx;
+      font-weight: normal;
+      color: #333;
     }
     .tag {
       margin-top: 20rpx;
@@ -225,8 +263,8 @@
           margin: 10rpx 10rpx 30rpx 0;
           justify-content: space-between;
           img {
-            width: 200rpx;
-            height: 160rpx;
+            width: 220rpx;
+            height: 180rpx;
           }
           .bad {
             background-color: white;
@@ -269,7 +307,7 @@
     bottom: 0;
     height: 115rpx;
     background-color: #999;
-    z-index: 3;
+    z-index: 12;
     width: 100%;
     border-radius: 10rpx;
     .footer-wrapper {
@@ -288,7 +326,7 @@
         flex: 1;
         .price {
           text-align: left;
-          padding: 6rpx;
+          padding: 16rpx 6rpx 6rpx 6rpx;
           font-size: 21rpx;
           color: white;
           span {
@@ -333,20 +371,28 @@
     .cart {
       position: absolute;
       left: 20rpx;
-      top: 10rpx;
+      top: 20rpx;
       z-index: 991;
-      img {
-        width: 80rpx;
-        height: 80rpx;
+      .img {
+        background: url('../../../static/images/ic_menu_shoping_pressed.png');
+        width: 75rpx;
+        height: 75rpx;
+        background-size: cover;
+      }
+      .hide{
+        background: url('../../../static/images/ic_menu_shoping_nor.png');
+        width: 75rpx;
+        height: 75rpx;
         background-size: cover;
       }
       span {
         position: absolute;
-        right: 0;
-        top: 20rpx;
-        background-color: #000;
+        right: -8rpx;
+        top: 0;
+        background-color: #b4282d;
         width: 30rpx;
         height: 30rpx;
+        line-height: 30rpx;
         border-radius: 15rpx;
         display: flex;
         align-items: center;
@@ -368,21 +414,23 @@
   .attr-pop {
     position: fixed;
     width: 100%;
-    height: 500rpx;
-    bottom: -500rpx;
+    height: 700rpx;
+    bottom: -700rpx;
     transition: all 400ms ease;
     box-sizing: border-box;
     padding: 30rpx;
     background: #fff;
     z-index: 10;
+    overflow-y: scroll;
+    // display: flex;
+    border-radius: 12rpx;
     .top {
-      display: flex;
       margin-bottom: 35rpx;
       position: relative;
       .close {
         position: absolute;
         right: 0;
-        top: 0;
+        top: -10rpx;
         font-size: 30rpx;
         color: #999;
         line-height: 30rpx;
@@ -394,35 +442,46 @@
         }
       }
       .shopcart {
-        height: 240rpx;
+        height: 200rpx;
         border-bottom: 1px solid #ccc;
+        padding-top: 40rpx;
         .left {
+          vertical-align: middle;
           float: left;
-          height: 177rpx;
-          width: 177rpx;
-          margin-top: 50rpx;
+          height: 150rpx;
+          width: 150rpx;
+          // margin-top: 20rpx;
           margin-right: 30rpx;
           img {
-            padding: 0 30rpx;
+            padding: 0 20rpx;
             float: left;
-            height: 130rpx;
-            width: 130rpx;
+            height: 150rpx;
+            width: 150rpx;
           }
         }
         .right {
+          vertical-align: middle;
           flex: 1;
-          margin-top: 50rpx;
+          // margin-top: 20rpx;
           display: flex;
           align-items: flex-end;
           p {
             width: 100%;
             line-height: 45rpx;
           }
+          p:nth-child(1) {
+            color: #333;
+            padding-left: 20rpx;
+            padding-bottom: 10rpx;
+            font-size: 32rpx;
+          }
           p:nth-child(2) {
             color: #b4282d;
+            padding-left: 30rpx;
+            font-size: 32rpx;
           }
           .count {
-            margin: 10rpx 30rpx 0 300rpx;
+            margin: 10rpx 30rpx -20rpx 360rpx;
             width: 150rpx;
             height: 40rpx;
             line-height: 40rpx;
@@ -443,6 +502,9 @@
             }
           }
         }
+      }
+      .shopcart:last-child {
+        margin-bottom: 280rpx;
       }
     }
   }
