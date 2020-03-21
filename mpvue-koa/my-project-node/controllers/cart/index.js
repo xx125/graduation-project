@@ -1,5 +1,30 @@
 const { mysql } = require('../../mysql')
 
+async function detailAction (ctx) {
+  const openId = ctx.query.openId
+
+   const carts = await mysql('cart').where({
+    'user_id': openId
+  }).select()
+
+    // 判断用户的购物车里是否有该商品
+    const oldNumber = await mysql('cart').where({
+      'user_id': openId,
+    }).column('number').select()
+    let allnumber = 0
+    if (oldNumber.length > 0) {
+      for (let i = 0; i < oldNumber.length; i++) {
+        const element = oldNumber[i]    // {number: 1}
+        allnumber += element.number
+      }
+    }
+
+  ctx.body = {
+    'carts': carts,
+    'allnumber': allnumber
+  }
+}
+
 async function addCart (ctx) {
   const { openId, goodsId, number } = ctx.request.body
 
@@ -58,19 +83,80 @@ async function reduceCart (ctx) {
   }
 }
 
-async function detailAction (ctx) {
-  const openId = ctx.query.openId
+async function addAction (ctx) {
+  const { openId, cartId } = ctx.request.body
+  // console.log(openId, cartId)
 
-  const carts = await mysql('cart').where({
-    'user_id': openId
-  }).select()
+  const cartnumber = await mysql('cart').where({
+    'user_id': openId,
+    'id': cartId
+  }).column('number').select()
+  await mysql('cart').where({
+    'user_id': openId,
+    'id': cartId
+  }).update({
+    'number': cartnumber[0].number + 1
+  })
   ctx.body = {
-    'carts': carts
+    data: 'add',
+    cartnumber
+  }
+}
+
+async function reduceAction (ctx) {
+  const { openId, goodsId, cartId } = ctx.request.body
+
+  const cartnum = await mysql('cart').where({
+    'user_id': openId,
+    'id': cartId
+  }).column('number').select()
+  // console.log('...' + cartnum[0].number)
+
+  if (cartnum[0].number > 1) {
+    const cartnumber = await mysql('cart').where({
+      'user_id': openId,
+      'id': cartId
+    }).column('number').select()
+    await mysql('cart').where({
+      'user_id': openId,
+      'id': cartId
+    }).update({
+      'number': cartnumber[0].number - 1
+    })
+  } else {
+    const cartnumber = await mysql('cart').where({
+      'user_id': openId,
+      'id': cartId
+    }).del()
+  }
+  ctx.body = {
+    data: 'reduce'
+  }
+}
+
+
+async function deleteCart (ctx) {
+  const openId = ctx.request.body.openId
+  // console.log(openId)
+  const data = await mysql('cart').where({
+    'user_id': openId
+  }).del()
+  if (data) {
+    ctx.body = {
+      'data': '清空成功'
+    }
+  } else {
+    ctx.body = {
+      'data': null
+    }
   }
 }
 
 module.exports = {
   addCart,
   reduceCart,
-  detailAction
+  addAction,
+  reduceAction,
+  detailAction,
+  deleteCart
 }

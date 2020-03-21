@@ -1,16 +1,16 @@
 {
   "pages": [
-    "pages/goods/main",
+    "pages/food_takeout/main",
     "pages/index/main",
     "pages/topic/main",
     "pages/order/main",
     "pages/my/main",
     "pages/mappage/main",
-    "pages/food_takeout/main",
+    
     "pages/food_list/main",
     "pages/newgoods/main",
     "pages/search/main",
-    
+    "pages/goods/main",
     "pages/food_detail/main"
   ],
   "permission": {

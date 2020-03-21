@@ -105,8 +105,8 @@
         line-height: 42rpx;
         color: white;
         font-size: 32rpx;
-        padding: 6rpx 20rpx;
-        border-radius: 50rpx;
+        padding: 6rpx 19rpx;
+        border-radius: 100rpx;
         // background: rgb(0,160,220);
         background-color: #e0a354;
         text-align: center;
@@ -481,24 +481,31 @@
             font-size: 32rpx;
           }
           .count {
-            margin: 10rpx 30rpx -20rpx 360rpx;
-            width: 150rpx;
-            height: 40rpx;
+            margin: 10rpx 40rpx -20rpx 360rpx;
+            width: 250rpx;
+            height: 42rpx;
             line-height: 40rpx;
             display: flex;
-            border: 1rpx solid #ccc;
-            div {
-              width: 40rpx;
+            .text {
+              display: inline-block;
+              box-sizing: border-box;
+              // height: 100%;
+              line-height: 42rpx;
+              color: white;
+              font-size: 26rpx;
+              padding: 0 15rpx;
+              border-radius: 100rpx;
+              // background: rgb(0,160,220);
+              background-color: #e0a354;
               text-align: center;
-              justify-content: center;
-              align-items: center;
             }
-            input {
-              flex: 1;
-              height: 100%;
+            .number {
+              vertical-align: middle;
+              width: 70rpx;
+              font-size: 32rpx;
+              display: inline-block;
+              border: none;
               text-align: center;
-              border-left: 1rpx solid #ccc;
-              border-right: 1rpx solid #ccc;
             }
           }
         }

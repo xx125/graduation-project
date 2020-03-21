@@ -1,0 +1,145 @@
+.index {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  .search {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 20rpx 25rpx 20rpx 25rpx;
+    position: fixed;
+    top: 0;
+    z-index: 99;
+    height: 80rpx;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    div {
+      flex: 1;    
+      position: relative;
+
+      input {
+        width: 100%;
+        height: 56rpx;
+        border-radius: 8rpx;
+        background: #ededed;
+        box-sizing: border-box;
+        padding-left: 40rpx;
+      }
+      .icon {
+        position: absolute;
+        top: 15rpx;
+        left: 10rpx;
+        background: url('http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/search2-2fb94833aa.png') center no-repeat;
+        background-size: 100%;
+        width: 28rpx;
+        height: 28rpx;
+        margin-right: 10rpx;
+      }
+    }
+  }
+  .food {
+    margin-top: 80rpx;
+    display: flex;
+    overflow: hidden;
+    .left_menu {
+      flex: 2;
+      background: #f3f5f7;
+      .menu_item {
+        height: 120rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 28rpx;
+        color: #333;
+        padding: 0 24rpx;
+      }
+      .menu_item.current {
+        height: 132rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        font-size: 28rpx;
+        color: #333;
+        padding: 0 24rpx;
+        background: #fff;
+      }
+    }
+    .right_content {
+      background: #fff;
+      flex: 6;
+      .goods_title {
+        .category {
+          padding-left: 28rpx;
+          height: 52rpx;
+          line-height: 52rpx;
+          border-left: 4rpx solid #d9dde1;
+          font-size: 30rpx;
+          color: #93999F;
+          background: #f3f5f7;
+        }
+      }
+      .goods_list {
+        display: flex;
+        margin: 36rpx;
+        padding-bottom: 36rpx;
+        :last-child {
+          padding-bottom: 0;
+        }
+        .img {
+          flex: 0 0 114rpx;
+          margin-right: 20rpx;
+          .image {
+            width: 100%;
+          }
+        }
+        .content {
+          .name {
+            margin: 4rpx 0 16rpx 0;
+            height: 28rpx;
+            line-height: 28rpx;
+            font-size: 34rpx;
+            color: #07111B;
+          }
+          .desc {
+            font-size: 24rpx;
+            color: #666;
+            line-height: 24rpx;
+            height: 24rpx;
+            width: 100%;
+            margin-bottom: 16rpx;
+            display: -webkit-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            -webkit-line-clamp: 1; /* 限制在一个块元素显示的文本的行数 */
+            -webkit-box-orient: vertical; /* 垂直排列 */
+            word-break: break-all;  /* 内容自动换行 */
+          }
+          .extra {
+            line-height: 20rpx;
+            font-size: 2px rpx;
+            color: #93999F;
+            .count {
+              margin-right: 24rpx;
+            }
+          }
+          .price {
+            font-weight: 700;
+            line-height: 48rpx;
+            .now {
+              margin-right: 16rpx;
+              font-size: 28rpx;
+              color: #F01414;
+            }
+            .old {
+              text-decoration: line-through;
+              font-size: 24rpx;
+              color: #93999F;
+            }
+          }
+        }
+      }
+    }
+  }
+}

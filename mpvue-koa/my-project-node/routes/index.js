@@ -23,8 +23,14 @@ router.post('/collect/addcollect', controllers.collect.index.addCollect)
 // router.post('/order/submitAction', controllers.order.index.submitAction)
 
 // 购物车相关接口
+router.get('/cart/detailaction', controllers.cart.index.detailAction)
 router.post('/cart/addCart', controllers.cart.index.addCart)
 router.post('/cart/reduceCart', controllers.cart.index.reduceCart)
-router.get('/cart/detailaction', controllers.cart.index.detailAction)
+router.post('/cart/addAction', controllers.cart.index.addAction)
+router.post('/cart/reduceAction', controllers.cart.index.reduceAction)
+router.post('/cart/deletecart', controllers.cart.index.deleteCart)
+
+// 食物相关接口
+router.get('/food/index', controllers.food.index.foodDetail)
 
 module.exports = router

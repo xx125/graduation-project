@@ -28,6 +28,32 @@ async function detailAction (ctx) {
   }).select()
   // console.log(badcomm)
 
+  // 判断是否在购物车里
+  const iscart = await mysql('cart').where({
+    'user_id': openId,
+    'goods_id': goodsId
+  }).select()
+  let showdom = false
+  if (iscart.length > 0) {
+    showdom = true
+  }
+
+  // 购物车里该商品的数量
+  const cartnumber = await mysql('cart').where({
+    'user_id': openId,
+    'goods_id': goodsId
+  }).column('number').select()
+
+  // 判断购物车里是否有商品
+  const hasfood = await mysql('cart').where({
+    'user_id': openId
+  }).select()
+  let has = false
+  if (hasfood.length > 0) {
+    has = true
+  }
+  // console.log(has)
+
   // 判断是否收藏过
   const iscollect = await mysql('collect').where({
     'user_id': openId,
@@ -38,17 +64,6 @@ async function detailAction (ctx) {
     collected = true
   }
 
-  // 判断用户的购物车里是否有该商品
-  const oldNumber = await mysql('cart').where({
-    'user_id': openId,
-  }).column('number').select()
-  let allnumber = 0
-  if (oldNumber.length > 0) {
-    for (let i = 0; i < oldNumber.length; i++) {
-      const element = oldNumber[i]    // {number: 1}
-      allnumber += element.number
-    }
-  }
 
   // 商品评论对应的图片
   // const commImg = await mysql('comment_image').where({
@@ -62,7 +77,9 @@ async function detailAction (ctx) {
     'goodcomm': goodcomm,
     'badcomm': badcomm,
     'collected': collected,
-    'allnumber': allnumber
+    'showdom': showdom,
+    'cartnumber': cartnumber[0],
+    'has': has
   }
 } 
 

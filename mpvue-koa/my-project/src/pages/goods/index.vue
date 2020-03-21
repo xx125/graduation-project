@@ -19,7 +19,7 @@
         <transition name="fade">
           <!-- <div class="text" @click="addCart($event)" v-show="!food.count">加入购物车</div> -->
           <div @click="reduceCart" :class="[showdom ? 'text' : 'hide']">-</div>
-          <input v-model="number" :class="[showdom ? 'number' : 'hide']" disabled="false"/>
+          <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div>
           <div class="text" @click="addCart">+</div>
         </transition>
       </div>
@@ -157,7 +157,7 @@
       </div>
       <div class="cart">
         <span v-if="allnumber>0">{{allnumber}}</span>
-        <div :class="[showall ? 'img' : 'hide']"></div>
+        <div :class="[allnumber>0 ? 'img' : 'hide']"></div>
         <!-- <img src="../../../static/images/ic_menu_shoping_nor.png" /> -->
         <!-- <span v-if="productCount > 0">{{productCount}}</span> -->
       </div>
@@ -167,8 +167,8 @@
     <div class="pop" v-show="showpop" @click="showType"></div>
     <div class="attr-pop" :class="[showpop ? 'fadeup' : 'fadedown']">
       <div class="top">
-        <div class="close">
-          <img src="../../../static/images/del-address.png" alt />
+        <div class="close" @click="deletecart">
+          <img src="../../../static/images/del-address.png" />
           <span>清空购物车</span>
         </div>
         <div class="shopcart" v-for="(item, index) in carts" :key="index">
@@ -180,9 +180,9 @@
               <p>{{item.goods_name}}</p>
               <p>¥{{item.price}}</p>
               <div class="count">
-                <div class="cut" @click="reduce">-</div>
-                <input type="text" class="number" v-model="number" disabled="false" />
-                <div class="add" @click="add">+</div>
+                <div class="text" @click="reduce(item.id)">-</div>
+                <div class="number">{{item.number}}</div>
+                <div class="text" @click="add(item.id)">+</div>
               </div>
             </div>
           </div>
@@ -215,40 +215,14 @@ export default {
       allnumber: 0,
       allPrice: 0,
       showdom: false,
-      showall: true,
-      carts: []
-      // showDetail: false,
-      // classifyArr: [{
-      //   name: '全部',
-      //   count: this.food.ratings.length,
-      //   active: true
-      // }, {
-      //   name: '好评',
-      //   count: this.food.ratings.filter((data) => data.rateType === 0).length,
-      //   active: false
-      // }, {
-      //   name: '差评',
-      //   count: this.food.ratings.filter((data) => data.rateType).length,
-      //   active: false
-      // }],
-      // evelflag: true
+      cartId:'',
+      carts: [],
+      cartnumber: 0,
+      has: false
+      // cartnumber: 0
     }
   },
   computed: {
-    //   evelArr() {
-    //     let selectIndex = 0
-    //     this.classifyArr.forEach((data, index) => {
-    //       if (data.active) {
-    //         selectIndex = index
-    //       }
-    //     })
-    //     if (this.detailWrapper) {
-    //       this.$nextTick(() => {
-    //         this.detailWrapper.refresh()
-    //       })
-    //     }
-    //     return selectIndex ? this.food.ratings.filter((data) => this.evelflag ? data.rateType === selectIndex - 1 && data.text : data.rateType === selectIndex - 1) : this.food.ratings.filter((data) => this.evelflag ? data.text : true)
-    //   }
     totalPrice() {
       var price = 0;
       // this.foods.map(item => price += item.totalPrice)
@@ -326,8 +300,10 @@ export default {
       this.badcomm = data.badcomm
       this.goodsId = data.info.id
       this.collectFlag = data.collected
-      this.allnumber = data.allnumber
       this.allPrice = data.info.price
+      this.showdom = data.showdom
+      this.cartnumber = data.cartnumber.number
+      this.has = data.has
       console.log(data)
     },
 
@@ -337,7 +313,9 @@ export default {
         openId: this.openId
       })
       this.carts = data.carts
-      console.log(data)
+      this.cartId = data.carts.id
+      this.cartnumber = data.carts.number
+      this.allnumber = data.allnumber
     },
 
     showType() {
@@ -363,16 +341,44 @@ export default {
       console.log(data)
     },
 
-    add () {
-      this.number += 1;
+    async add (id) {
+      const cartId = id
+      this.cartnumber += 1
+      this.cartDetail()
+      this.goodsDetail()
+      const data = await post('/cart/addAction', {
+        cartId: cartId,
+        // cartId: this.cartId,
+        openId: this.openId
+      })
+      console.log(data)
+      const datanum = await get("/goods/detailaction", {
+        openId: this.openId
+      })
+      this.allnumber = datanum.allnumber
+      this.carts = datanum.carts
+      this.cartDetail()
+      this.goodsDetail()
     },
 
-    reduce () {
-      if (this.number > 0) {
-        this.number -= 1;
-      } else {
-        return false;
-      }
+    async reduce (id) {
+      const cartId = id
+      this.cartnumber -= 1
+      this.cartDetail()
+      this.goodsDetail()
+      const data = await post('/cart/reduceAction', {
+        cartId: cartId,
+        // cartId: this.cartId,
+        openId: this.openId
+      })
+      console.log(data)
+      const datanum = await get("/goods/detailaction", {
+        openId: this.openId
+      })
+      this.allnumber = datanum.allnumber
+      this.carts = datanum.carts
+      this.cartDetail()
+      this.goodsDetail()
     },
 
     all (index) {
@@ -394,6 +400,8 @@ export default {
     async addCart () {
       this.number += 1
       this.showdom = true
+      this.cartDetail()
+      this.goodsDetail()
       const data = await post('/cart/addCart', {
         openId: this.openId,
         goodsId: this.goodsId,
@@ -405,6 +413,8 @@ export default {
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
+      this.cartDetail()
+      this.goodsDetail()
     },
 
     async reduceCart () {
@@ -414,17 +424,30 @@ export default {
       if (this.number < 1) {
         this.showdom = false
       }
+      this.cartDetail()
+      this.goodsDetail()
       const data = await post('/cart/reduceCart', {
         openId: this.openId,
         goodsId: this.goodsId,
         number: this.number
       })
       console.log(data)
-      const datanum = await get("/goods/detailaction", {
+      const datanum = await get('/goods/detailaction', {
         id: 1,
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
+      this.cartDetail()
+      this.goodsDetail()
+    },
+
+    async deletecart () {
+      const data = await post('/cart/deletecart', {
+        openId: this.openId
+      })
+      this.cartDetail()
+      this.goodsDetail()
+      console.log(data)
     },
 
     buy () {}
