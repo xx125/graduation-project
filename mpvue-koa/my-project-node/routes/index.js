@@ -29,6 +29,7 @@ router.post('/cart/reduceCart', controllers.cart.index.reduceCart)
 router.post('/cart/addAction', controllers.cart.index.addAction)
 router.post('/cart/reduceAction', controllers.cart.index.reduceAction)
 router.post('/cart/deletecart', controllers.cart.index.deleteCart)
+// router.get('/cart/allCart', controllers.cart.index.allCart)
 
 // 食物相关接口
 router.get('/food/index', controllers.food.index.foodDetail)

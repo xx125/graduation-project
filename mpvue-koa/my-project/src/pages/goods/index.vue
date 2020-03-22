@@ -17,7 +17,6 @@
       </div>
       <div class="shopCart">
         <transition name="fade">
-          <!-- <div class="text" @click="addCart($event)" v-show="!food.count">加入购物车</div> -->
           <div @click="reduceCart" :class="[showdom ? 'text' : 'hide']">-</div>
           <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div>
           <div class="text" @click="addCart">+</div>

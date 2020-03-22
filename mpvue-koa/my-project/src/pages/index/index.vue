@@ -37,7 +37,7 @@
       </div>
       <div class="content">
         <div v-for="(item, index) in recommend" :key="index" @click="foodDetail(item.id)">
-          <div>
+          <div @click="goodsPage(item.id)">
             <p>{{item.name}}</p>
             <p class="price">{{item.price}}元</p>
           </div>
@@ -56,7 +56,7 @@
       <div class="list">
         <ul>
           <scroll-view class="scroll-view" :scroll-x="true">
-            <li v-for="(item, index) in newGoods" :key="index">
+            <li v-for="(item, index) in newGoods" :key="index" @click="goodsPage(item.id)">
               <img :src="item.image" alt="">
               <p>{{item.name}}</p>
               <p>{{item.description}}</p>
@@ -184,6 +184,12 @@ export default {
       this.banner = data.banner
       this.recommend = data.recommend
       this.newGoods = data.newGoods
+    },
+    goodsPage (id) {
+      console.log('跳转')
+      wx.navigateTo({
+        url: '/pages/goods/main?id=' + id
+      })
     }
   }
 }

@@ -72,14 +72,25 @@ async function reduceCart (ctx) {
     'user_id': openId,
     'goods_id': goodsId
   }).column('number').select()
-  await mysql('cart').where({
+  if (oldNumber[0].number > 1) {
+    const cnumber = await mysql('cart').where({
     'user_id': openId,
     'goods_id': goodsId
-  }).update({
-    'number': oldNumber[0].number - 1
-  })
+    }).column('number').select()
+    await mysql('cart').where({
+      'user_id': openId,
+      'goods_id': goodsId
+    }).update({
+      'number': cnumber[0].number - 1
+    })
+  } else {
+      const cnumber = await mysql('cart').where({
+        'user_id': openId,
+        'goods_id': goodsId
+      }).del()
+    }
   ctx.body = {
-    data: 'reduce'
+    data: 'reduceCart'
   }
 }
 
