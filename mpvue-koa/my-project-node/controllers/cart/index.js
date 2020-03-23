@@ -1,5 +1,6 @@
 const { mysql } = require('../../mysql')
 
+// 获取购物车列表
 async function detailAction (ctx) {
   const openId = ctx.query.openId
 

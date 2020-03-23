@@ -21,6 +21,9 @@ router.post('/collect/addcollect', controllers.collect.index.addCollect)
 
 // 订单相关接口
 // router.post('/order/submitAction', controllers.order.index.submitAction)
+router.get('/order/detailAction', controllers.order.index.detailAction)
+router.post('/order/orderDown', controllers.order.index.orderDown)
+
 
 // 购物车相关接口
 router.get('/cart/detailaction', controllers.cart.index.detailAction)
@@ -29,9 +32,14 @@ router.post('/cart/reduceCart', controllers.cart.index.reduceCart)
 router.post('/cart/addAction', controllers.cart.index.addAction)
 router.post('/cart/reduceAction', controllers.cart.index.reduceAction)
 router.post('/cart/deletecart', controllers.cart.index.deleteCart)
-// router.get('/cart/allCart', controllers.cart.index.allCart)
+// router.get('/cart/cartList', controllers.cart.index.cartList)
 
 // 食物相关接口
 router.get('/food/index', controllers.food.index.foodDetail)
+
+// 地址相关接口
+router.get('/address/getListAction', controllers.address.index.getListAction)
+router.get('/address/detailAction', controllers.address.index.detailAction)
+router.post('/address/saveAction', controllers.address.index.saveAction)
 
 module.exports = router

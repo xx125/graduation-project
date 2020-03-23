@@ -81,8 +81,8 @@
             <span class="container-last">支持自取</span>
           </div>
         </div>
-        <div class="container-price">
-          <span @click="buy">去结算</span>
+        <div class="container-price" :class="[allnumber>0 ? '' : 'hide']">
+          <span v-if="allnumber>0" @click="buy" >去结算</span>
         </div>
       </div>
       <div class="cart">

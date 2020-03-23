@@ -1,25 +1,55 @@
 const { mysql } = require('../../mysql')
 
-async function submitAction (ctx) {
+async function orderDown (ctx) {
   const { openId } = ctx.request.body
-  let goodsId = ctx.request.body
-  let allPrice = ctx.request.allPrice
+  let goodsId = ctx.request.body.goodsId
+  let allPrice = ctx.request.body.allPrice
 
-  // 是否存在订单
-  const isOrder = await mysql('cart').where({
+  await mysql('cart').where({
     'user_id': openId
-  }).select
-  if (isOrder.length > 0) {
-    const data = await mysql('cart').where({
-      'user_id': openId
-    }).update({
+  }).del()
+
+  // const goods = await mysql('food').where({
+  //   'id': goodsId
+  // }).select()
+  // const { price, name, image } = goods[0]
+  const data = await mysql('order').insert({
     user_id: openId,
-    goods_id:goodsId,
-    price: allPrice
-    })
+    goods_id: goodsId,
+    allPrice: allPrice
+    // number: number
+    // price,
+    // name,
+    // image
+  })
+  ctx.body = {
+    data: '提交成功'
+  }
+}
+
+async function detailAction (ctx) {
+  const openId = ctx.query.openId
+  const addressId = ctx.query.addressId || ''
+  
+  // 收货地址
+  var addressList;
+  if (addressList) {
+    addressList = await mysql('address').where({
+      'user_id': openId,
+      'id': addressId
+    }).orderBy('is_default', 'desc').select()
+  } else {
+    addressList = await mysql('address').where({
+      'user_id': openId
+    }).orderBy('is_default', 'desc').select()
+  }
+
+  ctx.body = {
+    address: addressList[0] || {}
   }
 }
 
 module.exports = {
-  submitAction
+  orderDown,
+  detailAction
 }

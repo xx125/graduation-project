@@ -125,13 +125,13 @@
     </div>
 
     <!-- meituan 底部购物车代码 -->
-    <div class="footer" @click="showType">
+    <div class="footer" >
       <!-- <div class="footer-c" v-if="pageIndex === 0"> -->
       <!-- <div class="c-t">
           <span>{{reduceTip}}</span>
       </div>-->
       <div class="footer-wrapper">
-        <div class="container">
+        <div class="container" @click="showType">
           <!-- <span class="price" v-if="totalPrice > 0 || productCount > 0"> -->
           <div class="price">
             ￥
@@ -149,9 +149,9 @@
           :style="{'background-color': btnTitle === '去结算' ? '#F0D179' : '#2F2F2F'}"
           @click="orderClick"
         >-->
-        <div class="container-price">
+        <div class="container-price" :class="[allnumber>0 ? '' : 'hide']">
           <!-- <span :style="{color: btnTitle === '去结算' ? '#333' : '#666'}">{{btnTitle}}</span> -->
-          <span @click="buy">去结算</span>
+          <span v-if="allnumber>0" @click="buy" >去结算</span>
         </div>
       </div>
       <div class="cart">
@@ -449,7 +449,11 @@ export default {
       console.log(data)
     },
 
-    buy () {}
+    buy () {
+      wx.navigateTo({
+        url: '/pages/cart/main'
+      });      
+    }
     // async buy () {
     //   const data = await post('/order/submitAction', {
     //     goodsId: this.goodsId,
