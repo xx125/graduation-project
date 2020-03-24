@@ -1,0 +1,54 @@
+.feedback {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 0 32rpx;
+  z-index: 9;
+  background: #fff;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;  
+  .title {
+    margin-top: 30rpx;
+    text-align: center;
+    padding: 20rpx 0;
+    span:nth-child(2) {
+      font-size: 30rpx;
+      color: #333;
+      padding: 0 10rpx;
+    }
+    span:nth-child(2n + 1) {
+      color: #999;
+    }
+  }
+  .text {
+    width: 94.5%;
+    padding: 30rpx 20rpx 30rpx 20rpx;
+    border-left: none;
+    border-right: none;
+    // border-top: 1rpx solid #ccc;
+    border-bottom: 1rpx solid #ccc;
+  }
+  .connect {
+    padding: 30rpx 0;
+    font-size: 26rpx;
+    display: flex;
+    border-bottom: 1rpx solid #ccc;
+    .number {
+      display: flex;
+    }
+  }
+  .submit {
+    margin-top: 100rpx;
+    text-align: center;
+    width: 90%;
+    height: 80rpx;
+    background: #b4282d;
+    color: #fff;
+  }
+  .hide {
+    display: none;
+  }
+}

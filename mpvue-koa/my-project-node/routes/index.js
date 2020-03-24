@@ -18,6 +18,7 @@ router.get('/goods/detailaction', controllers.goods.index.detailAction)
 
 // 收藏相关的接口
 router.post('/collect/addcollect', controllers.collect.index.addCollect)
+router.get('/collect/detailAction', controllers.collect.index.detailAction)
 
 // 订单相关接口
 // router.post('/order/submitAction', controllers.order.index.submitAction)
@@ -41,5 +42,9 @@ router.get('/food/index', controllers.food.index.foodDetail)
 router.get('/address/getListAction', controllers.address.index.getListAction)
 router.get('/address/detailAction', controllers.address.index.detailAction)
 router.post('/address/saveAction', controllers.address.index.saveAction)
+
+// 新品首发相关接口
+router.get('/newgoods/detailAction', controllers.newgoods.index.detailAction)
+
 
 module.exports = router

@@ -1,0 +1,68 @@
+.goodsList {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  box-sizing: border-box;
+  padding: 0 32rpx;
+  z-index: 9;
+  background: #fff;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  .title {
+    text-align: center;
+    padding: 30rpx 0;
+    span:nth-child(2) {
+      font-size: 30rpx;
+      color: #333;
+      padding: 0 10rpx;
+    }
+    span:nth-child(2n + 1) {
+      color: #999;
+    }
+  }
+  .sortlist {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    .item {
+      box-sizing: border-box;
+      width: 50%;
+      text-align: center;
+      background-color: #fff;
+      padding: 15rpx 0;
+      border-bottom: 1px solid #d9d9d9;
+      border-right: 1px solid #d9d9d9;
+      img {
+        display: block;
+        width: 302rpx;
+        height: 302rpx;
+        margin: 0 auto;
+      }
+      .name {
+        margin: 15rpx 0 22rpx 0;
+        text-align: center;
+        padding: 0 20rpx;
+        font-size: 24rpx;
+      }
+      .price {
+        text-align: center;
+        font-size: 30rpx;
+        color: #b4282d;
+      }
+    }
+    .item:nth-child(2n) {
+      border-right: none;
+    }
+    .item.active:nth-last-child(1) {
+      border-bottom: none;
+    }
+    .item.active:nth-last-child(2) {
+      border-bottom: none;
+    }
+    .item.none:last-child {
+      border-bottom: none;
+    }
+  }
+}

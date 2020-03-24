@@ -68,12 +68,12 @@
     </div>
 
     <!-- meituan 底部购物车代码 -->
-    <div class="footer" @click="showType">
+    <div class="footer">
       <div class="footer-wrapper">
-        <div class="container">
+        <div class="container" @click="showType">
           <div class="price">
             ￥
-            <span>15.9</span>
+            <span>{{allPrice}}</span>
           </div>
           <div class="container-con">
             <span class="container-tai">另需配送费￥9元</span>
@@ -249,7 +249,11 @@ export default {
         this.navItemHeight = rect.height
       }).exec()
     },
-    buy () {},
+    buy () {
+      wx.navigateTo({
+        url: '/pages/cart/main'
+      });  
+    },
     showType() {
       this.showpop = !this.showpop;
     },
@@ -363,8 +367,19 @@ export default {
         this.getFoodHeight()
       }, 60)
     }
+  },
+  computed: {
+    allPrice () {
+      let Price = 0
+      for (let i = 0; i < this.carts.length; i++) {
+        if (this.carts[i]) {
+          console.log(this.carts[i])
+          Price += this.carts[i].price * this.carts[i].number
+        }
+      }
+      return Price
+    }
   }
-
 }
 </script>
 

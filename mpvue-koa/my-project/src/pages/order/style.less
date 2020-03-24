@@ -1,0 +1,99 @@
+.order {
+  // position: absolute;
+  // width: 100%;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  // box-sizing: border-box;
+  padding: 0 32rpx;
+  z-index: 9;
+  background: #fff;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+  .title {
+    text-align: center;
+    padding: 30rpx 0;
+    span:nth-child(2) {
+      font-size: 30rpx;
+      color: #333;
+      padding: 0 10rpx;
+    }
+    span:nth-child(2n + 1) {
+      color: #999;
+    }
+  }
+  .cartlist {
+    // margin-top: 20rpx;
+    padding-left: 60rpx;
+    margin-right: 60rpx;
+    background: #fff;
+    // margin-bottom: 110rpx;
+    .item {
+      width: 100%;
+      padding: 10rpx 0 30rpx 0;
+      border-bottom: 1rpx solid #f4f4f4;
+      height: 300rpx;
+      // position: absolute;
+      .con {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        transition: all 300ms ease;
+        .left {
+          display: flex;
+          align-items: center;
+          width: 450rpx;
+          margin-top: 30rpx;
+          .img {
+            height: 160rpx;
+            width: 160rpx;
+            display: block;
+            background: #f4f4f4;
+            img {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .info {
+            width: 50%;
+            padding: 20rpx;
+            p {
+              line-height: 40rpx;
+            }
+          }
+        }
+        .right {
+          width: 200rpx;
+          padding-left: 100rpx;
+          .num {
+            padding-top: -80rpx;
+          }
+          .price {
+            padding-top: 20rpx;
+          }
+        }
+      }
+      .bottom {
+        align-items: center;
+        // padding-left: 200rpx;
+        // width: 400rpx;
+        // height: 50rpx;
+        display: flex;
+        margin-top: 40rpx;
+        .comment {
+          margin: 0 230rpx 0 0;
+          width: 160rpx;
+          border: 1rpx solid #ccc;
+          font-size: 26rpx;
+        }
+        .again {
+          // margin-right: 80rpx;
+          margin-left: 30rpx;
+          width: 160rpx;
+          border: 1rpx solid #ccc;
+          font-size: 26rpx;
+        }
+      }
+    }
+  }
+}

@@ -1,20 +1,25 @@
 {
   "pages": [
-    "pages/addressSelect/main",
-    "pages/index/main",
-    "pages/topic/main",
     "pages/order/main",
+    "pages/index/main",
     "pages/my/main",
+    
+    "pages/topic/main",
+    
+    "pages/feedback/main",
     "pages/mappage/main",
     "pages/food_takeout/main",
     "pages/food_list/main",
     "pages/newgoods/main",
     "pages/search/main",
     "pages/goods/main",
+    "pages/food_detail/main",
     "pages/cart/main",
-
+    "pages/cart_list/main",
+    "pages/addressSelect/main",
     "pages/addaddress/main",
-    "pages/food_detail/main"
+    "pages/collectlist/main"
+    
   ],
   "permission": {
     "scope.userLocation": {

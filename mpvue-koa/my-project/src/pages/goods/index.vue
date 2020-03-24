@@ -135,11 +135,11 @@
           <!-- <span class="price" v-if="totalPrice > 0 || productCount > 0"> -->
           <div class="price">
             ￥
-            <span>15.9</span>
+            <span>{{sumPrice}}</span>
             <!-- <span>{{totalPrice}}</span> -->
           </div>
           <div class="container-con">
-            <span class="container-tai">另需配送费￥9元</span>
+            <span class="container-tai">免配送费</span>
             <div class="container-ner"></div>
             <span class="container-last">支持自取</span>
           </div>
@@ -222,6 +222,16 @@ export default {
     }
   },
   computed: {
+    sumPrice () {
+      let Price = 0
+      for (let i = 0; i < this.carts.length; i++) {
+        if (this.carts[i]) {
+          console.log(this.carts[i])
+          Price += this.carts[i].price * this.carts[i].number
+        }
+      }
+      return Price
+    },
     totalPrice() {
       var price = 0;
       // this.foods.map(item => price += item.totalPrice)

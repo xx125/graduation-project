@@ -2,11 +2,11 @@
   <div class="goodsList" v-if="listData.length !== 0">
     <div class="title">
       <span>———</span>
-      <span>新品首发</span>
+      <span>我的收藏</span>
       <span>———</span>
     </div>
     <div class="sortlist">
-      <div @click="goodsDetail(item.id)" class="item" v-for="(item, index) in listData" :key="index">
+      <div @click="goodsDetail(item.goods_id)" class="item" v-for="(item, index) in listData" :key="index">
         <img :src="item.image" alt="">
         <p class="name">{{item.name}}</p>
         <p class="price">¥{{item.price}}</p>
@@ -30,10 +30,10 @@ export default {
   },
   methods: {
     async getData () {
-      const data = await get('/newgoods/detailAction', {
+      const data = await get('/collect/detailAction', {
         openId: this.openId
       })
-      this.listData = data.newgoods
+      this.listData = data.collectList
     },
 
      goodsDetail (id) {

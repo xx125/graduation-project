@@ -20,7 +20,7 @@
             :id="'nav_'+index"
             :class="index===currentIndex ? 'current' : ''"
             :key="index"
-            @tap="selectMenu(index)"
+            @click="selectMenu(index)"
           >{{item.name}}</li>
         </ul>
       </scroll-view>
@@ -34,7 +34,11 @@
       >
         <ul>
           <li v-for="(item,i) in goods" :id="'con_'+i" class="food-list food-list-hook" :key="i" @click="goodsPage(item.id)">
-            <div :class="item.foodType?'category':'hide'">{{item.foodType}}</div>
+            <div :class="item.foodType?'category':'hide'">
+              <!-- <span>———</span> -->
+              <span>{{item.foodType}}</span>
+              <!-- <span>———</span> -->
+            </div>
             <div class="container">
               <div class="img">
                 <img class="image" :src="item.image" mode="widthFix" />
@@ -54,9 +58,9 @@
                   <transition name="fade">
                     <!-- <div @click="reduceCart" :class="[showdom ? 'text' : 'hide']">-</div> -->
                     <!-- <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div> -->
-                    <div @click="reduceCart(item.id)" class="text">-</div>
+                    <div @click="reduceCart(item.id)" :class="[showdom ? 'text' : 'hide']">-</div>
                     <!-- <div class="number">0</div> -->
-                    <div class="number">{{cartnumber}}</div>
+                    <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div>
                     <div class="text" @click="addCart(item.id)">+</div>
                   </transition>
                 </div>
@@ -68,12 +72,12 @@
     </div>
 
     <!-- meituan 底部购物车代码 -->
-    <div class="footer" @click="showType">
+    <div class="footer">
       <div class="footer-wrapper">
-        <div class="container">
+        <div class="container" @click="showType">
           <div class="price">
             ￥
-            <span>15.9</span>
+            <span>{{allPrice}}</span>
           </div>
           <div class="container-con">
             <span class="container-tai">另需配送费￥9元</span>
@@ -166,7 +170,7 @@ export default {
     goodsPage (id) {
       console.log('跳转')
       wx.navigateTo({
-        url: '/pages/goods/main?id=' + id
+        url: '/pages/food_detail/main?id=' + id
       })
     },
     async getData() {
@@ -207,9 +211,9 @@ export default {
       })
     },
     selectMenu(index) {
+      this.currentIndex = index
       this.contentId = `con_${index}`
       this.navId = `nav_${index}`
-      this.currentIndex = index
       console.log('contentId' + this.contentId)
     },
     onScroll(e) {
@@ -250,7 +254,11 @@ export default {
         this.navItemHeight = rect.height
       }).exec()
     },
-    buy () {},
+    buy () {
+      wx.navigateTo({
+        url: '/pages/cart_list/main'
+      });      
+    },
     showType() {
       this.showpop = !this.showpop;
     },
@@ -366,8 +374,19 @@ export default {
         this.getFoodHeight()
       }, 60)
     }
+  },
+  computed: {
+    allPrice () {
+      let Price = 0
+      for (let i = 0; i < this.carts.length; i++) {
+        if (this.carts[i]) {
+          console.log(this.carts[i])
+          Price += this.carts[i].price * this.carts[i].number
+        }
+      }
+      return Price
+    }
   }
-
 }
 </script>
 
