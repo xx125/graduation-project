@@ -14,8 +14,12 @@ export default {
       watermark: { timestamp: 1535513485, appid: "wxdf42f24a47a385f0" }
     };
     var openId = userInfo.openId;
+    var nickName = userInfo.nickName;
+    var avatarUrl = userInfo.avatarUrl;
     wx.setStorageSync("userInfo", userInfo);
     wx.setStorageSync("openId", openId);
+    wx.setStorageSync("nickName", nickName);
+    wx.setStorageSync("avatarUrl", avatarUrl);
     /*
      * 平台 api 差异的处理方式:  api 方法统一挂载到 mpvue 名称空间, 平台判断通过 mpvuePlatform 特征字符串
      * 微信：mpvue === wx, mpvuePlatform === 'wx'

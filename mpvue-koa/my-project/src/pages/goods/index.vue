@@ -115,7 +115,7 @@
             <div class="r-comtent">
               <span>{{item.text}}</span>
             </div>
-            <div class="r-imgs">
+            <div :class="item.commImg?'r-imgs':'hide'">
               <img :src="item.commImg" />
               <span :class="item.rateType=='推荐' ? 'good' : 'bad'">{{item.rateType}}</span>
             </div>
@@ -313,7 +313,7 @@ export default {
       this.showdom = data.showdom
       this.cartnumber = data.cartnumber.number
       this.has = data.has
-      console.log(data)
+      // console.log(data)
     },
 
     async cartDetail () {
@@ -409,8 +409,8 @@ export default {
     async addCart () {
       this.number += 1
       this.showdom = true
-      this.cartDetail()
-      this.goodsDetail()
+      // this.cartDetail()
+      // this.goodsDetail()
       const data = await post('/cart/addCart', {
         openId: this.openId,
         goodsId: this.goodsId,

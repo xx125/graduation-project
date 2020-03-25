@@ -37,6 +37,8 @@ router.post('/cart/deletecart', controllers.cart.index.deleteCart)
 
 // 食物相关接口
 router.get('/food/index', controllers.food.index.foodDetail)
+router.get('/food/currentAction', controllers.food.index.currentAction)
+
 
 // 地址相关接口
 router.get('/address/getListAction', controllers.address.index.getListAction)
@@ -45,6 +47,9 @@ router.post('/address/saveAction', controllers.address.index.saveAction)
 
 // 新品首发相关接口
 router.get('/newgoods/detailAction', controllers.newgoods.index.detailAction)
+
+// 评论相关接口
+router.post('/comment/addComment', controllers.comment.index.addComment)
 
 
 module.exports = router

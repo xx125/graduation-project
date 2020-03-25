@@ -68,6 +68,18 @@ export function getStorageOpenid () {
   }
 }
 
+export function getStoragenickName () {
+  const nickName = wx.getStorageSync('nickName')
+  if (nickName) {
+    return nickName
+  }
+}
+
+export function getStorageavatarUrl () {
+  const avatarUrl = wx.getStorageSync('avatarUrl')
+    return avatarUrl
+}
+
 export function login () {
   const userInfo = wx.getStorageSync('userInfo')
   if (userInfo) {
@@ -89,5 +101,9 @@ export function toLogin () {
 export default {
   formatNumber,
   formatTime,
-  getStorageOpenid
+  getStorageOpenid,
+  getStoragenickName,
+  getStorageavatarUrl,
+  login,
+  toLogin
 }

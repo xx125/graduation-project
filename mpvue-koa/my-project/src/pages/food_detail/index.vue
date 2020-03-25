@@ -59,7 +59,7 @@
             <div class="r-comtent">
               <span>{{item.text}}</span>
             </div>
-            <div class="r-imgs">
+            <div :class="item.commImg?'r-imgs':'hide'">
               <img :src="item.commImg"/>
               <span :class="item.rateType=='推荐' ? 'good' : 'bad'">{{item.rateType}}</span>
             </div>

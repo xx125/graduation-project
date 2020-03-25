@@ -25,9 +25,9 @@ export default {
 		return {
 			listData: [
 				{
-          title: "我的收藏",
-          icon: "icon-shoucang",
-          url: "/pages/collectlist/main"
+          title: "我的足迹",
+          icon: "icon-zuji",
+          url: ""
         },
         {
           title: "地址管理",

@@ -20,12 +20,12 @@
           </div>
           <div class="right">
             <div class="num">✖️{{item.number}}</div>
-            <div class="price">¥  {{allprice}}</div>
+            <div class="price">¥  {{item.number * item.price}}</div>
           </div>
         </div>
         <div class="bottom">
-            <button class="comment">评价</button>
-            <button class="again">再来一单</button>
+            <button class="comment" @click="comment(item.goods_id)">评价</button>
+            <button class="again" @click="goodsDetail(item.goods_id)">再来一单</button>
           </div>
       </div>
     </div>
@@ -56,7 +56,17 @@ export default {
       console.log(data)
       this.orders = data.orders
       this.orders.map((item) => {
-        this.allprice += item.price * item.number
+      // this.allprice = item.price * item.number
+      })
+    },
+    comment (id) {
+      wx.navigateTo({
+        url: '/pages/comment/main?id=' + id
+      })
+    },
+    goodsDetail (id) {
+       wx.navigateTo({
+        url: '/pages/goods/main?id=' + id
       })
     }
   }

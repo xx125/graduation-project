@@ -20,7 +20,7 @@
             :id="'nav_'+index"
             :class="index===currentIndex ? 'current' : ''"
             :key="index"
-            @click="selectMenu(index)"
+            @click="selectMenu(item.name, index)"
           >{{item.name}}</li>
         </ul>
       </scroll-view>
@@ -33,13 +33,11 @@
         :style="{'height': '1300rpx'}"
       >
         <ul>
-          <li v-for="(item,i) in goods" :id="'con_'+i" class="food-list food-list-hook" :key="i" @click="goodsPage(item.id)">
-            <div :class="item.foodType?'category':'hide'">
-              <!-- <span>———</span> -->
+          <li class="food-list food-list-hook" :key="i" @click="goodsPage(item.id)">
+            <div v-for="(item, index) in goods" :key="index" class="span">
               <span>{{item.foodType}}</span>
-              <!-- <span>———</span> -->
             </div>
-            <div class="container">
+            <div class="container" v-for="(item, index) in goods" :key="index">
               <div class="img">
                 <img class="image" :src="item.image" mode="widthFix" />
               </div>
@@ -126,7 +124,6 @@
 
 <script>
 import { get, post } from "../../utils";
-
 export default {
   data() {
     return {
@@ -149,7 +146,9 @@ export default {
       has: false,
       goodsId: '',
       price: 0,
-      number: 0
+      number: 0,
+      name: '中式家常菜',
+      detailData: {}
     }
   },
   mounted() {
@@ -157,18 +156,10 @@ export default {
     this.getData()
     this.goodsDetail()
     this.cartDetail()
-    // this.currentIndex()
-    // this.allCart()
+    this.selectMenu(this.name, this.nowIndex)
   },
   methods: {
-    // async allCart () {
-    //   const all = await get('/cart/allcart', {
-    //     openId: this.openId,
-    //     goodsId: 
-    //   })
-    // },
     goodsPage (id) {
-      console.log('跳转')
       wx.navigateTo({
         url: '/pages/food_detail/main?id=' + id
       })
@@ -177,11 +168,19 @@ export default {
       const data = await get("/food/index", {
         openId: this.openId,
       })
-      console.log(data);
+      // console.log(data);
       this.list = data.list;
-      this.goods = data.goods;
       this.goodsId = data.goods.id;
       this.price = data.goods.price;
+    },
+    async selectMenu (name, index) {
+      this.currentIndex = index
+      const data = await get('/food/currentAction', {
+        name: name
+      })
+      console.log(data)
+      this.goods = data.goods
+      // this.detailData = data.data.currentOne
     },
     async goodsDetail () {
       const data = await get('/goods/detailaction', {
@@ -190,7 +189,7 @@ export default {
       })
       this.cartnumber = data.cartnumber.number
       this.has = data.has
-      console.log(data)
+      // console.log(data)
     },
     async cartDetail () {
       const data = await get('/cart/detailaction', {
@@ -203,23 +202,17 @@ export default {
       this.allnumber = data.allnumber
       // this.goodsId = data.goods.id
       // this.showdom = data.showdom
-      console.log(data)
+      // console.log(data)
     },
     toSearch() {
       wx.navigateTo({
         url: "/pages/search/main"
       })
     },
-    selectMenu(index) {
-      this.currentIndex = index
-      this.contentId = `con_${index}`
-      this.navId = `nav_${index}`
-      console.log('contentId' + this.contentId)
-    },
     onScroll(e) {
       this.contentId = ''
       let scrollTop = e.mp.detail.scrollTop
-      console.log(scrollTop)
+      // console.log(scrollTop)
       let length = this.listHeight.length
       if (scrollTop >= this.listHeight[length - 1] - this.contentHeight) {
         return
@@ -231,7 +224,7 @@ export default {
           this.currentIndex = i
         }
       }
-      console.log(this.currentIndex)
+      // console.log(this.currentIndex)
     },
     getFoodHeight() {
       var query = wx.createSelectorQuery()
@@ -242,7 +235,7 @@ export default {
           h += rect.height
           this.listHeight.push(h)
         })
-        console.log(this.listHeight)
+        // console.log(this.listHeight)
       })
       query.select('.foods-wrapper').boundingClientRect((rect) => {
         this.contentHeight = rect.height
@@ -268,7 +261,7 @@ export default {
       })
       this.cartDetail()
       this.goodsDetail()
-      console.log(data)
+      // console.log(data)
     },
     async add (id) {
       const cartId = id
@@ -280,7 +273,7 @@ export default {
         // cartId: this.cartId,
         openId: this.openId
       })
-      console.log(data)
+      // console.log(data)
       const datanum = await get("/goods/detailaction", {
         openId: this.openId
       })
@@ -289,7 +282,6 @@ export default {
       this.cartDetail()
       this.goodsDetail()
     },
-
     async reduce (id) {
       const cartId = id
       this.cartnumber -= 1
@@ -300,7 +292,7 @@ export default {
         // cartId: this.cartId,
         openId: this.openId
       })
-      console.log(data)
+      // console.log(data)
       const datanum = await get("/goods/detailaction", {
         openId: this.openId
       })
@@ -320,7 +312,7 @@ export default {
         goodsId: cartId,
         number: this.number
       })
-      console.log(data)
+      // console.log(data)
       const datanum = await get("/goods/detailaction", {
         id: 1,
         openId: this.openId
@@ -329,7 +321,6 @@ export default {
       this.cartDetail()
       this.goodsDetail()
     },
-
     async reduceCart (id) {
       const cartId = id
       if (this.number > 0) {
@@ -345,7 +336,7 @@ export default {
         goodsId: cartId,
         number: this.number
       })
-      console.log(data)
+      // console.log(data)
       const datanum = await get('/goods/detailaction', {
         id: 1,
         openId: this.openId
@@ -380,7 +371,7 @@ export default {
       let Price = 0
       for (let i = 0; i < this.carts.length; i++) {
         if (this.carts[i]) {
-          console.log(this.carts[i])
+          // console.log(this.carts[i])
           Price += this.carts[i].price * this.carts[i].number
         }
       }

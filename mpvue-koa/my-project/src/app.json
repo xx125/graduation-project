@@ -1,15 +1,16 @@
 {
   "pages": [
-    "pages/order/main",
+    "pages/food_list/main",
     "pages/index/main",
+    "pages/order/main",
+    "pages/comment/main",
     "pages/my/main",
-    
     "pages/topic/main",
     
     "pages/feedback/main",
     "pages/mappage/main",
     "pages/food_takeout/main",
-    "pages/food_list/main",
+    
     "pages/newgoods/main",
     "pages/search/main",
     "pages/goods/main",
@@ -45,10 +46,10 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/topic/main",
+        "pagePath": "pages/collectlist/main",
         "iconPath": "static/images/ic_menu_topic_nor.png",
         "selectedIconPath": "static/images/ic_menu_topic_pressed.png",
-        "text": "专题"
+        "text": "收藏"
       },
       {
         "pagePath": "pages/order/main",

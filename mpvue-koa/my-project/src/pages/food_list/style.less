@@ -1,4 +1,4 @@
-.index {
+ .index {
   width: 100%;
   // overflow: hidden;
   position: relative;
@@ -70,30 +70,18 @@
       background: #fff;
       flex: 6;
       .food-list.food-list-hook {
-        .category {
-          padding-left: 28rpx;
-          height: 48rpx;
-          line-height: 48rpx;
-          border-left: 4rpx solid #d9dde1;
-          font-size: 28rpx;
-          color: #93999F;
-          background: #f3f5f7;
-          // text-align: center;
-          // padding: 30rpx 0;
-
-          // span:nth-child(2) {
-          //   font-size: 30rpx;
-          //   color: #333;
-          //   padding: 0 10rpx;
-          // }
-
-          // span:nth-child(2n + 1) {
-          //   color: #999;
-          // }
-        }
-        .hide {
-          display: none;
-        }
+          .span {
+            padding-left: 28rpx;
+            height: 48rpx;
+            line-height: 48rpx;
+            border-left: 4rpx solid #d9dde1;
+            font-size: 28rpx;
+            color: #93999F;
+            background: #f3f5f7;
+          }
+          .span:not(:first-child) {
+            display: none;
+          }
         .container {
           align-items: unset;
           text-align: unset;
