@@ -33,11 +33,11 @@
         :style="{'height': '1300rpx'}"
       >
         <ul>
-          <li class="food-list food-list-hook" :key="i" @click="goodsPage(item.id)">
+          <li class="food-list food-list-hook" :key="i">
             <div v-for="(item, index) in goods" :key="index" class="span">
               <span>{{item.foodType}}</span>
             </div>
-            <div class="container" v-for="(item, index) in goods" :key="index">
+            <div class="container" v-for="(item, index) in goods" :key="index" @click="goodsPage(item.id)">
               <div class="img">
                 <img class="image" :src="item.image" mode="widthFix" />
               </div>
@@ -56,9 +56,9 @@
                   <transition name="fade">
                     <!-- <div @click="reduceCart" :class="[showdom ? 'text' : 'hide']">-</div> -->
                     <!-- <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div> -->
-                    <div @click="reduceCart(item.id)" :class="[showdom ? 'text' : 'hide']">-</div>
+                    <!-- <div @click="reduceCart(item.id)" :class="[showdom ? 'text' : 'hide']">-</div> -->
                     <!-- <div class="number">0</div> -->
-                    <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div>
+                    <!-- <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div> -->
                     <div class="text" @click="addCart(item.id)">+</div>
                   </transition>
                 </div>

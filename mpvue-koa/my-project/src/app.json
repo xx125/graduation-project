@@ -1,7 +1,8 @@
 {
   "pages": [
-    "pages/food_list/main",
     "pages/index/main",
+    "pages/food_list/main",
+    
     "pages/order/main",
     "pages/comment/main",
     "pages/my/main",
