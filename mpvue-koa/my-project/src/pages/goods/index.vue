@@ -17,9 +17,9 @@
       </div>
       <div class="shopCart">
         <transition name="fade">
-          <div @click="reduceCart" :class="[showdom ? 'text' : 'hide']">-</div>
+          <div @click="reduceCart(info.id)" :class="[showdom ? 'text' : 'hide']">-</div>
           <div :class="[showdom ? 'number' : 'hide']">{{cartnumber}}</div>
-          <div class="text" @click="addCart">+</div>
+          <div class="text" @click="addCart(info.id)">+</div>
         </transition>
       </div>
     </div>
@@ -106,11 +106,6 @@
                 <span class="name">{{item.username}}</span>
                 <span class="date">{{item.rateTime}}</span>
               </div>
-              <!-- <div class="r-b">
-                  <div class="b-l">
-                    <i class="icon mt-star-s" v-for="(itx, idx) in stars" :key="idx"></i>
-                  </div>
-              </div>-->
             </div>
             <div class="r-comtent">
               <span>{{item.text}}</span>
@@ -232,11 +227,6 @@ export default {
       }
       return Price
     },
-    totalPrice() {
-      var price = 0;
-      // this.foods.map(item => price += item.totalPrice)
-      return parseFloat(price).toFixed(1);
-    },
     productCount() {
       var count = 0;
       // this.foods.map(item => count += item.count)
@@ -347,47 +337,6 @@ export default {
         openId: this.openId,
         goodsId: this.goodsId
       })
-      console.log(data)
-    },
-
-    async add (id) {
-      const cartId = id
-      this.cartnumber += 1
-      this.cartDetail()
-      this.goodsDetail()
-      const data = await post('/cart/addAction', {
-        cartId: cartId,
-        // cartId: this.cartId,
-        openId: this.openId
-      })
-      console.log(data)
-      const datanum = await get("/goods/detailaction", {
-        openId: this.openId
-      })
-      this.allnumber = datanum.allnumber
-      this.carts = datanum.carts
-      this.cartDetail()
-      this.goodsDetail()
-    },
-
-    async reduce (id) {
-      const cartId = id
-      this.cartnumber -= 1
-      this.cartDetail()
-      this.goodsDetail()
-      const data = await post('/cart/reduceAction', {
-        cartId: cartId,
-        // cartId: this.cartId,
-        openId: this.openId
-      })
-      console.log(data)
-      const datanum = await get("/goods/detailaction", {
-        openId: this.openId
-      })
-      this.allnumber = datanum.allnumber
-      this.carts = datanum.carts
-      this.cartDetail()
-      this.goodsDetail()
     },
 
     all (index) {
@@ -405,8 +354,49 @@ export default {
       this.gooddisplay = 0
       this.alldisplay = 0
     },
+
+    async add (id) {
+      const cartId = id
+      this.cartnumber = 0
+      this.cartnumber += 1
+      this.cartDetail()
+      this.goodsDetail()
+      const data = await post('/cart/addAction', {
+        cartId: cartId,
+        // cartId: this.cartId,
+        openId: this.openId
+      })
+      const datanum = await get("/cart/detailaction", {
+        openId: this.openId
+      })
+      this.allnumber = datanum.allnumber
+      this.carts = datanum.carts
+      this.cartDetail()
+      this.goodsDetail()
+    },
+
+    async reduce (id) {
+      const cartId = id
+      this.cartnumber = 0
+      this.cartnumber -= 1
+      this.cartDetail()
+      this.goodsDetail()
+      const data = await post('/cart/reduceAction', {
+        cartId: cartId,
+        // cartId: this.cartId,
+        openId: this.openId
+      })
+      const datanum = await get("/goods/detailaction", {
+        openId: this.openId
+      })
+      this.allnumber = datanum.allnumber
+      this.carts = datanum.carts
+      this.cartDetail()
+      this.goodsDetail()
+    },
  
-    async addCart () {
+    async addCart (id) {
+      this.number = 0
       this.number += 1
       this.showdom = true
       // this.cartDetail()
@@ -416,17 +406,18 @@ export default {
         goodsId: this.goodsId,
         number: this.number
       })
-      console.log(data)
       const datanum = await get("/goods/detailaction", {
-        id: 1,
+        // id: 1,
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
       this.cartDetail()
       this.goodsDetail()
+      // this.number = 0
     },
 
-    async reduceCart () {
+    async reduceCart (id) {
+      this.number = 0
       if (this.number > 0) {
         this.number -= 1
       } 
@@ -464,13 +455,6 @@ export default {
         url: '/pages/cart/main'
       });      
     }
-    // async buy () {
-    //   const data = await post('/order/submitAction', {
-    //     goodsId: this.goodsId,
-    //     openId: this.openId,
-    //     allPrice: this.allPrice
-    //   })
-    // }
   }
 }
 </script>

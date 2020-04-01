@@ -313,7 +313,7 @@ export default {
       this.showdom = data.showdom
       this.cartnumber = data.cartnumber.number
       this.has = data.has
-      console.log(data)
+      // console.log(data)
     },
 
     async cartDetail () {
@@ -347,7 +347,7 @@ export default {
         openId: this.openId,
         goodsId: this.goodsId
       })
-      console.log(data)
+      // console.log(data)
     },
 
     async add (id) {
@@ -360,8 +360,8 @@ export default {
         // cartId: this.cartId,
         openId: this.openId
       })
-      console.log(data)
-      const datanum = await get("/goods/detailaction", {
+      // console.log(data)
+      const datanum = await get("/cart/detailaction", {
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
@@ -380,8 +380,8 @@ export default {
         // cartId: this.cartId,
         openId: this.openId
       })
-      console.log(data)
-      const datanum = await get("/goods/detailaction", {
+      // console.log(data)
+      const datanum = await get("/cart/detailaction", {
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
@@ -407,6 +407,7 @@ export default {
     },
  
     async addCart () {
+      this.number = 0
       this.number += 1
       this.showdom = true
       this.cartDetail()
@@ -416,7 +417,7 @@ export default {
         goodsId: this.goodsId,
         number: this.number
       })
-      console.log(data)
+      // console.log(data)
       const datanum = await get("/goods/detailaction", {
         id: 1,
         openId: this.openId
@@ -427,6 +428,7 @@ export default {
     },
 
     async reduceCart () {
+      this.number = 0
       if (this.number > 0) {
         this.number -= 1
       } 
@@ -440,7 +442,7 @@ export default {
         goodsId: this.goodsId,
         number: this.number
       })
-      console.log(data)
+      // console.log(data)
       const datanum = await get('/goods/detailaction', {
         id: 1,
         openId: this.openId
@@ -456,12 +458,12 @@ export default {
       })
       this.cartDetail()
       this.goodsDetail()
-      console.log(data)
+      // console.log(data)
     },
 
     buy () {
       wx.navigateTo({
-        url: '/pages/cart_list/main'
+        url: '/pages/cart/main'
       });      
     }
     // async buy () {

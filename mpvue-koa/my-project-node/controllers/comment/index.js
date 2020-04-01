@@ -2,7 +2,7 @@ const { mysql } = require('../../mysql')
 
 
 async function addComment (ctx) {
-  const { username, useravatar, content, rateType, foodId } = ctx.request.body
+  const { username, useravatar, content, rateType, foodId, commImg, rateTime } = ctx.request.body
 
   // 添加评论
   const data = await mysql('comments').insert({
@@ -10,7 +10,9 @@ async function addComment (ctx) {
     username: username,
     useravatar: useravatar,
     rateType: rateType,
-    text: content
+    text: content,
+    commImg: commImg,
+    rateTime: rateTime
   })
   if (data) {
     ctx.body = {

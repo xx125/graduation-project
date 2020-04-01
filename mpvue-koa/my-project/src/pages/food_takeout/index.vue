@@ -37,20 +37,22 @@
             <div v-for="(item, index) in goods" :key="index" class="span">
               <span>{{item.foodType}}</span>
             </div>
-            <div class="container" v-for="(item, index) in goods" :key="index" @click="goodsPage(item.id)">
-              <div class="img">
+            <div class="container" v-for="(item, index) in goods" :key="index">
+              <div class="img" @click="goodsPage(item.id)">
                 <img class="image" :src="item.image" mode="widthFix" />
               </div>
               <div class="content">
-                <div class="name">{{item.name}}</div>
-                <div class="desc">{{item.description}}</div>
-                <div class="extra">
-                  <span class="count">月售{{item.sellCount}}份</span>
-                  <span>好评率{{item.rating}}%</span>
-                </div>
-                <div class="price">
-                  <span class="now">¥{{item.price}}</span>
-                  <span class="old" v-if="item.oldPrice">¥{{item.oldPrice}}</span>
+                <div @click="goodsPage(item.id)">
+                  <div class="name">{{item.name}}</div>
+                  <div class="desc">{{item.description}}</div>
+                  <div class="extra">
+                    <span class="count">月售{{item.sellCount}}份</span>
+                    <span>好评率{{item.rating}}%</span>
+                  </div>
+                  <div class="price">
+                    <span class="now">¥{{item.price}}</span>
+                    <span class="old" v-if="item.oldPrice">¥{{item.oldPrice}}</span>
+                  </div>
                 </div>
                 <div class="shopCart">
                   <transition name="fade">
@@ -78,7 +80,7 @@
             <span>{{allPrice}}</span>
           </div>
           <div class="container-con">
-            <span class="container-tai">另需配送费￥9元</span>
+            <span class="container-tai">免配送费</span>
             <div class="container-ner"></div>
             <span class="container-last">支持自取</span>
           </div>
@@ -178,7 +180,7 @@ export default {
       const data = await get('/food/currentAction', {
         name: name
       })
-      console.log(data)
+      // console.log(data)
       this.goods = data.goods
       // this.detailData = data.data.currentOne
     },
@@ -249,7 +251,7 @@ export default {
     },
     buy () {
       wx.navigateTo({
-        url: '/pages/cart_list/main'
+        url: '/pages/cart/main'
       });      
     },
     showType() {
@@ -274,7 +276,7 @@ export default {
         openId: this.openId
       })
       // console.log(data)
-      const datanum = await get("/goods/detailaction", {
+      const datanum = await get("/cart/detailaction", {
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
@@ -293,7 +295,7 @@ export default {
         openId: this.openId
       })
       // console.log(data)
-      const datanum = await get("/goods/detailaction", {
+      const datanum = await get("/cart/detailaction", {
         openId: this.openId
       })
       this.allnumber = datanum.allnumber
@@ -302,6 +304,7 @@ export default {
       this.goodsDetail()
     },
     async addCart (id) {
+      this.number = 0
       const cartId = id
       this.number += 1
       this.showdom = true

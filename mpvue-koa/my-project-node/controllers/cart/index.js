@@ -35,7 +35,7 @@ async function addCart (ctx) {
     'goods_id': goodsId
   }).select()
 
-  if (haveGoods.length === 0) {
+  if (haveGoods.length == 0) {
     const goods = await mysql('food').where({
       'id': goodsId
     }).select()

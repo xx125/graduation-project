@@ -48,6 +48,7 @@ export default {
     }
   },
   mounted () {
+    Object.assign(this.$data, this.$options.data())
     this.openId = getStorageOpenid()
     if (this.$root.$mp.query.res) {   // 如果有，是从一键导入微信地址过来的
       this.res = JSON.parse(decodeURIComponent(this.$root.$mp.query.res))
